@@ -39,6 +39,17 @@ dependencies:
   get: ^4.6.6
   intl: ^0.18.1
   provider: ^6.0.5
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  sleek_circular_slider: ^2.0.1
+  location_geocoder: ^1.0.5
+  
+
+  location: ^5.0.2
+  permission_handler: ^11.0.1
+  sensors_plus: ^3.1.0
+
+  
 
 
 dev_dependencies:
