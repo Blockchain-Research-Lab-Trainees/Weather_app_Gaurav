@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:provider/provider.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shake/shake.dart';
 
 class WeatherProvider extends ChangeNotifier {
@@ -48,19 +49,19 @@ class WeatherProvider extends ChangeNotifier {
     }
 
 // Create a ShakeDetector instance
-    final ShakeDetector detector = ShakeDetector.waitForStart(
-      onPhoneShake: () {
-        // Refresh weather data when the phone is shaken
-        fetchWeather(cityName);
-        print('shaken');
-      },
-    );
-    detector.startListening();
+    // final ShakeDetector detector = ShakeDetector.waitForStart(
+    //   onPhoneShake: () {
+    //     // Refresh weather data when the phone is shaken
+    //     fetchWeather(cityName);
+    //     print('shaken');
+    //   },
+    // );
+    // detector.startListening();
 
-    WeatherProvider() {
-      // Start listening for shake events
-      detector.startListening();
-    }
+    // WeatherProvider() {
+    //   // Start listening for shake events
+    //   detector.startListening();
+    // }
   }
 
   weatherLocation _location = weatherLocation();
@@ -118,12 +119,40 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  @override
+
+    double scrollPosition = 0.0;
+
+@override
   void initState() {
-    // TODO: implement initState
     super.initState();
+     WeatherProvider()._checkLocationPermission();
     WeatherProvider()._checkLocationPermission();
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      double sensitivity = 2.0;
+      setState(() {
+        scrollPosition += event.y * sensitivity;
+        if (scrollPosition < 0) {
+          scrollPosition = 0;
+        } else if (scrollPosition > 1.0) {
+          scrollPosition = 1.0;
+        }
+      });
+    });
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    accelerometerEvents.drain();
+  }
+
+  
+  @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   WeatherProvider()._checkLocationPermission();
+  // }
   // final  location = Location;
 
   String currentLocation = 'Loading...';
@@ -131,6 +160,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
+    final H =MediaQuery.sizeOf(context).height;
+    final W = MediaQuery.sizeOf(context).width;
 
     return Consumer<WeatherProvider>(
       builder: (context, value, child) => Scaffold(
