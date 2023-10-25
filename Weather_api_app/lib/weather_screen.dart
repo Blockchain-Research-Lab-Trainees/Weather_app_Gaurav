@@ -163,7 +163,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
     final H =MediaQuery.sizeOf(context).height;
     final W = MediaQuery.sizeOf(context).width;
 
-    return Consumer<WeatherProvider>(
+
+
+    
+
+    return WillPopScope(
+        onWillPop: () async {
+          return await showExitConfirmationDialog(context);
+    
+        },
+    
+    child :Consumer<WeatherProvider>(
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -273,7 +283,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               //   fontSize: 20
                               // ),
                               // ),
-                              
+
                               SizedBox(
                                 height: 10,
                               ),
@@ -409,8 +419,40 @@ class _WeatherScreenState extends State<WeatherScreen> {
           },
         ),
       ),
+    )
     );
   }
+}
+
+
+
+
+
+
+Future<bool> showExitConfirmationDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Exit App'),
+        content: const Text('Do you want to exit the app?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      );
+    },
+  ).then((value) => value ?? false);
 }
 
 
