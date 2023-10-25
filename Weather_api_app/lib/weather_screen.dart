@@ -182,11 +182,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
               icon: const Icon(Icons.refresh),
             ),
 
-            //  IconButton(
-            //   padding: EdgeInsets.only(right: 10),
-            //   onPressed: (){}, // Call the function here
-            //   icon: Icon(Icons.refresh),
-            //  ),
           ],
         ),
         body: FutureBuilder(
@@ -244,7 +239,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         color: Colors.deepPurpleAccent),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  labelText: 'city',
+                                  labelText: 'City',
                                   contentPadding: EdgeInsets.all(8.0),
                                   labelStyle: TextStyle(
                                     color: Colors.red,
@@ -272,12 +267,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 height: 10,
                               ),
                               // Text(
-                              //   // 'Current Location : $currentLocation',
-                              //   's',
+                              //   'Current Location : $currentLocation',
+                                
                               // style: TextStyle(
                               //   fontSize: 20
                               // ),
                               // ),
+                              
                               SizedBox(
                                 height: 10,
                               ),
@@ -306,7 +302,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           child: Column(
                                             children: [
                                               Text(
-                                                currentTemp,
+                                                '$currentTemp K' ,
                                                 style: TextStyle(
                                                   fontSize: 32,
                                                   fontWeight: FontWeight.bold,
@@ -395,12 +391,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     value: currentHumidity.toString(),
                                   ),
                                   AdditionalInfo(
-                                    icon: Icons.air,
+                                     icon: Icons.air,
                                     label: 'wind Speed',
                                     value: currentWindSpeed.toString(),
                                   ),
                                   AdditionalInfo(
-                                    icon: Icons.beach_access,
+                                     icon: Icons.beach_access,
                                     label: 'Pressure',
                                     value: currentPressure.toString(),
                                   ),

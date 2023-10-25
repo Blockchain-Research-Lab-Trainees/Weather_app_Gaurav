@@ -14,10 +14,24 @@ class AdditionalInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(
+        
+//         Container(
+//           height: 60, width: 60, padding: const EdgeInsets.all(16),
+// decoration: BoxDecoration(
+
+
+// borderRadius: BorderRadius.circular (15)),
+// child: image,
+//         ),
+
+      Icon(
           icon,
           size: 40,
         ),
+
+
+        
+        
         const SizedBox(
           height: 8.0,
         ),

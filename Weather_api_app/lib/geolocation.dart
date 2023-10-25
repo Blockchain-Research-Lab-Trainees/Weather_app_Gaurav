@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const String openWeatherApiKey = '8049eac8c49885f052b0a530d4315c33'; // Replace with your API key
+const String openWeatherApiKey = 'c615d2b917d78bdd79fadb464a5c8680'; // Replace with your API key
 
 // void main() {
 //   runApp(MaterialApp(home: WeatherApp()));
