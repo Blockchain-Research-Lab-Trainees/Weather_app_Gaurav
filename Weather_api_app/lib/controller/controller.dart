@@ -45,7 +45,7 @@ import 'dart:convert';
 
 void main() {
   // Replace with your actual JSON data
-  final jsonData = json.decode('http://api.openweathermap.org/data/2.5/forecast?q=London,uk&APPID=$OpenWeatherApiKey');
+  final jsonData = json.decode('http://api.openweathermap.org/data/2.5/forecast?q=London,uk&APPID=$OpenWeatherApiKey2');
 
   // Specify your current location coordinates (latitude and longitude)
   final myLatitude = 9.9312;
