@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geocoding/geocoding.dart';
 
-const String openWeatherApiKey = '8049eac8c49885f052b0a530d4315c33'; //  API key
+const String openWeatherApiKey = '21c2b0a01fde6feede36a6d628b42cf1'; //  API key
 
 // void main() {
 //   runApp(MaterialApp(home: WeatherApp()));

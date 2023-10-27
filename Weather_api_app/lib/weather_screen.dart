@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:gaurav_app/additional_info_item.dart';
 import 'package:gaurav_app/geolocation.dart';
@@ -10,20 +9,17 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:gaurav_app/secrets.dart';
 import 'package:intl/intl.dart';
-
-
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shake/shake.dart';
 
-class WeatherProvider extends ChangeNotifier {
-  Map<String, dynamic>? _weatherData;
-  Map<String, dynamic>? _weatherDD;
+class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and notify changes to weather data
+  Map<String, dynamic>? _weatherData;   // this  is a map that store data  receive from api
+  Map<String, dynamic>? _weatherDD;    // store location data
   TextEditingController _controller = TextEditingController();
-  TextEditingController get controller => _controller;
+  TextEditingController get controller => _controller;   // to access controoller
   Map<String, dynamic>? get weatherData => _weatherData;
   Map<String, dynamic>? get weatherDD => _weatherDD;
   String cityName = 'Ghaziabad, IN';
@@ -38,7 +34,7 @@ class WeatherProvider extends ChangeNotifier {
 
       final data = jsonDecode(res.body);
 
-      if (data['cod'] != '200') {
+      if (data['cod'] != '200') {   // if response status code is 200 it indicate success
         throw data['message'];
       }
 
@@ -92,7 +88,7 @@ class WeatherProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> _fetchWeatherData(double lat, double lon) async {
+  Future<void> _fetchWeatherData(double lat, double lon) async {   //it give me or fetch current weather locathion using lon &lat
     try {
       final response = await http.get(Uri.parse(
           'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$OpenWeatherApiKey2'));
@@ -100,7 +96,7 @@ class WeatherProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         _weatherDD = json.decode(response.body);
 // Notify listeners after updating the data
-      notifyListeners();
+      notifyListeners();   // after error or data updates it notify widgets to change change data
 
       } else {
         _error =
@@ -149,7 +145,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   @override
-  void dispose() {
+  void dispose() {   //it remove created object permanently from widgrt tree 
     super.dispose();
     accelerometerEvents.drain();
   }
@@ -176,7 +172,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     
         },
     
-    child :Consumer<WeatherProvider>(
+    child :Consumer<WeatherProvider>(      // fetch data from proviser and changes or rebuild on change value in provider
       builder: (context, value, child) => 
         
           

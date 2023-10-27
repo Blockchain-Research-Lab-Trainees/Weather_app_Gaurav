@@ -4,7 +4,7 @@ import 'package:gaurav_app/weather_screen.dart';
 import 'package:provider/provider.dart';
 
 
-void main() {
+void main() { 
   runApp(
       ChangeNotifierProvider(
         create: (context) => WeatherProvider(),
