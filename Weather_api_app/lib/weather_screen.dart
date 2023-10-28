@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shake/shake.dart';
 
+
 class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and notify changes to weather data
   Map<String, dynamic>? _weatherData;   // this  is a map that store data  receive from api
   Map<String, dynamic>? _weatherDD;    // store location data
@@ -29,7 +30,7 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
     try {
       final res = await http.get(
         Uri.parse(
-            'http://api.openweathermap.org/data/2.5/forecast?q=$cityName,uk&APPID=$OpenWeatherApiKey2'),
+            'http://api.openweathermap.org/data/2.5/forecast?q=$cityName,uk&APPID=${secrets().OpenWeatherApiKey2}'),
       );
 
       final data = jsonDecode(res.body);
@@ -43,6 +44,8 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
     } catch (e) {
       throw e.toString();
     }
+
+    
 
 // Create a ShakeDetector instance
     // final ShakeDetector detector = ShakeDetector.waitForStart(
@@ -91,7 +94,7 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
   Future<void> _fetchWeatherData(double lat, double lon) async {   //it give me or fetch current weather locathion using lon &lat
     try {
       final response = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$OpenWeatherApiKey2'));
+          'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=${secrets().OpenWeatherApiKey2}'));
 
       if (response.statusCode == 200) {
         _weatherDD = json.decode(response.body);
@@ -125,6 +128,7 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
 
     double scrollPosition = 0.0;
+    
 
 @override
   void initState() {

@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geocoding/geocoding.dart';
 
-const String openWeatherApiKey = '21c2b0a01fde6feede36a6d628b42cf1'; //  API key
+const String openWeatherApiKey = 'd5ddb3754653105db8674123c15e1213'; //  API key
 
 // void main() {
 //   runApp(MaterialApp(home: WeatherApp()));
@@ -72,15 +72,16 @@ class _WeatherAppState extends State<WeatherApp> {
           cityName += ', IN';
 
           // Provide the city name to the WeatherProvider
-          _provider.cityName = cityName;
-
+         _provider.cityName = cityName;
+        
           // Print the city name
           print(cityName);
 
           _provider.fetchWeather(cityName);
           _provider.notifyListeners();
         });
-      } else {
+      } 
+          else {
         setState(() {
           _error =
               'Error fetching weather data. Status code: ${response.statusCode}';

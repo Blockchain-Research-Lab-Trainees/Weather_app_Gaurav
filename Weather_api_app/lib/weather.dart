@@ -41,7 +41,7 @@ late Position _currentPosition;
   Future<void> _fetchWeatherData(double lat, double lon) async {
     try {
       final response = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$OpenWeatherApiKey2'));
+          'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=${secrets().OpenWeatherApiKey2}'));
 
       if (response.statusCode == 200) {
         
