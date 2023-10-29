@@ -17,14 +17,14 @@ import 'package:shake/shake.dart';
 
 
 class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and notify changes to weather data
-  Map<String, dynamic>? _weatherData;   // this  is a map that store data  receive from api
+  // Map<String, dynamic>? _weatherData;   // this  is a map that store data  receive from api
   Map<String, dynamic>? _weatherDD;    // store location data
   TextEditingController _controller = TextEditingController();
   TextEditingController get controller => _controller;   // to access controoller
-  Map<String, dynamic>? get weatherData => _weatherData;
+  // Map<String, dynamic>? get weatherData => _weatherData;
   Map<String, dynamic>? get weatherDD => _weatherDD;
-  String cityName = 'Ghaziabad, IN';
-  String get city => cityName;
+  String cityName = 'Dasna, IN';
+  // String get city => cityName;
 
   Future<void> fetchWeather(String cityName) async {
     try {
@@ -39,7 +39,7 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
         throw data['message'];
       }
 
-      _weatherData = data;
+      _weatherDD = data;
       notifyListeners();
     } catch (e) {
       throw e.toString();
@@ -63,59 +63,62 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
     // }
   }
 
-  weatherLocation _location = weatherLocation();
+  // weatherLocation _location = weatherLocation();
 
   late Position _currentPosition;
   // Map<String, dynamic> _weatherData = {};
   String _error = '';
 
-  Future<void> _checkLocationPermission() async {
-    final status = await Permission.location.request();
-    if (status.isGranted) {
-      _getCurrentLocation();
-    } else {
-      // Handle case when user denies location permission
+  void updateLocation(Position currentPosition) {}
 
-      _error = 'Location permission denied.';
-    }
-  }
+  // Future<void> _checkLocationPermission() async {
+  //   final status = await Permission.location.request();
+  //   if (status.isGranted) {
+  //     _getCurrentLocation();
+  //   } else {
+  //     // Handle case when user denies location permission
 
-  Future<void> _getCurrentLocation() async {
-    try {
-      _currentPosition = await Geolocator.getCurrentPosition();
-      print(_currentPosition);
-      _fetchWeatherData(_currentPosition.latitude, _currentPosition.longitude);
-    } catch (e) {
-      // Handle location retrieval error
-      _error = 'Error getting location: $e';
-    }
-  }
+  //     _error = 'Location permission denied.';
+  //   }
+  // }
 
-  Future<void> _fetchWeatherData(double lat, double lon) async {   //it give me or fetch current weather locathion using lon &lat
-    try {
-      final response = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=${secrets().OpenWeatherApiKey2}'));
+  // Future<void> _getCurrentLocation() async {
+  //   try {
+  //     _currentPosition = await Geolocator.getCurrentPosition();
+      
+  //     print(_currentPosition);
+  //     _fetchWeatherData(_currentPosition.latitude, _currentPosition.longitude);
+  //   } catch (e) {
+  //     // Handle location retrieval error
+  //     _error = 'Error getting location: $e';
+  //   }
+  // }
 
-      if (response.statusCode == 200) {
-        _weatherDD = json.decode(response.body);
-// Notify listeners after updating the data
-      notifyListeners();   // after error or data updates it notify widgets to change change data
+//   Future<void> _fetchWeatherData(double lat, double lon) async {   //it give me or fetch current weather locathion using lon &lat
+//     try {
+//       final response = await http.get(Uri.parse(
+//           'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=${secrets().OpenWeatherApiKey2}'));
 
-      } else {
-        _error =
-            'Error fetching weather data. Status code: ${response.statusCode}';
+//       if (response.statusCode == 200) {
+//         _weatherDD = json.decode(response.body);
+// // Notify listeners after updating the data
+//       notifyListeners();   // after error or data updates it notify widgets to change change data
 
-            notifyListeners();
-      }
-    } catch (e) {
-      // Handle weather data retrieval error
+//       } else {
+//         _error =
+//             'Error fetching weather data. Status code: ${response.statusCode}';
 
-      _error = 'Error fetching weather data: $e';
-      notifyListeners();
+//             notifyListeners();
+//       }
+//     } catch (e) {
+//       // Handle weather data retrieval error
+
+//       _error = 'Error fetching weather data: $e';
+//       notifyListeners();
 
 
-    }
-  }
+//     }
+//   }
 }
 
 class WeatherScreen extends StatefulWidget {
@@ -133,8 +136,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
 @override
   void initState() {
     super.initState();
-     WeatherProvider()._checkLocationPermission();
-    WeatherProvider()._checkLocationPermission();
+    //  WeatherProvider()._checkLocationPermission();
+    // WeatherProvider()._checkLocationPermission();
     accelerometerEvents.listen((AccelerometerEvent event) {
       double sensitivity = 2.0;
       setState(() {
@@ -203,7 +206,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
               IconButton(
                 padding: EdgeInsets.only(right: 20),
                 onPressed: () {
-                  weatherProvider.fetchWeather('Ghaziabad, IN');
+                  weatherProvider.fetchWeather('Dasna, IN');
                 },
                 icon: const Icon(Icons.refresh),
               ),
@@ -217,7 +220,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 return Center(child: Text(snapshot.error.toString()));
               }
       
-              final data = weatherProvider.weatherData;
+              final data = weatherProvider.weatherDD;
       
               if (data == null) {
                 return const Center(
@@ -230,7 +233,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
       
               //  final data = snapshot.data;
               final currentTemp =
-                  value._weatherData?['list']?[0]?['main']?['temp']?.toString() ??
+                 ( value._weatherDD?['list']?[0]?['main']?['temp']-273.15)?.toStringAsFixed(2) ??
                       'N/A';
       
               final currentWeatherData = data['list'][0];
@@ -305,7 +308,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   height: 10,
                                 ),
       
-                                 WeatherApp(),
+                                //  WeatherApp(),
       
                                 SizedBox(
                                   height: 10,
@@ -330,7 +333,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  '$currentTemp K' ,
+                                                  '$currentTemp ℃' ,
                                                   style: TextStyle(
                                                     fontSize: 32,
                                                     fontWeight: FontWeight.bold,

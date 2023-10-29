@@ -7,11 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geocoding/geocoding.dart';
 
-const String openWeatherApiKey = 'd5ddb3754653105db8674123c15e1213'; //  API key
-
-// void main() {
-//   runApp(MaterialApp(home: WeatherApp()));
-// }
+const String openWeatherApiKey = '8049eac8c49885f052b0a530d4315c33'; //  API key
 
 class WeatherApp extends StatefulWidget {
   @override
@@ -20,7 +16,7 @@ class WeatherApp extends StatefulWidget {
 
 class _WeatherAppState extends State<WeatherApp> {
   late Position _currentPosition;
-  Map<String, dynamic> _weatherData = {};
+  Map<String, dynamic> _weatherDD = {};
   String _error = '';
   bool _isLoading = true;
   WeatherProvider _provider = WeatherProvider();
@@ -64,24 +60,23 @@ class _WeatherAppState extends State<WeatherApp> {
 
       if (response.statusCode == 200) {
         setState(() {
-          _weatherData = json.decode(response.body);
+          _weatherDD = json.decode(response.body);
           _isLoading = false;
 
           // Get the city name and add ',IN' as a suffix
-          String cityName = _weatherData['name'] ?? "N/A";
+          String cityName = _weatherDD['name'] ?? "N/A";
           cityName += ', IN';
 
           // Provide the city name to the WeatherProvider
-         _provider.cityName = cityName;
-        
+          _provider.cityName = cityName;
+
           // Print the city name
           print(cityName);
 
           _provider.fetchWeather(cityName);
           _provider.notifyListeners();
         });
-      } 
-          else {
+      } else {
         setState(() {
           _error =
               'Error fetching weather data. Status code: ${response.statusCode}';
@@ -96,11 +91,11 @@ class _WeatherAppState extends State<WeatherApp> {
       });
     } finally {
       // _provider.cityName = _weatherData['name'];
-      _provider.cityName = _weatherData['name'] + ', IN';
+      // _provider.cityName = _weatherData['name'] + ', IN';
 
-      print(_provider.cityName);
-      _provider.fetchWeather(_provider.cityName);
-      _provider.notifyListeners();
+      // print(_provider.cityName);
+      // _provider.fetchWeather(_provider.cityName);
+      // _provider.notifyListeners();
     }
   }
 
@@ -114,7 +109,7 @@ class _WeatherAppState extends State<WeatherApp> {
         else
           Column(children: [
             Text(
-              'Current Location: ${_weatherData['name'] ?? "N/A"}',
+              'Current Location: ${_weatherDD['name'] ?? "N/A"}',
               style: TextStyle(fontSize: 24),
             ),
             //Text('Temperature: ${(_weatherData['main']['temp'] - 273.15).toStringAsFixed(2)}°C'),
@@ -136,65 +131,4 @@ class _WeatherAppState extends State<WeatherApp> {
 
 
 
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
-
-// class GeolocatorScreen extends StatefulWidget {
-//   @override
-//   _GeolocatorScreenState createState() => _GeolocatorScreenState();
-// }
-
-// class _GeolocatorScreenState extends State<GeolocatorScreen> {
-//   late Position _currentPosition;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _getCurrentLocation();
-//   }
-
-//   Future<void> _getCurrentLocation() async {
-//     try {
-//       _currentPosition = await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.best,
-//       );
-//     } catch (e) {
-//       // Handle location retrieval error
-//       print('Error getting location: $e');
-//     }
-
-//     // Check if the user didn't grant permission or there was an error
-//     if (_currentPosition == null) {
-//       // You can handle this case, e.g., by showing an error message.
-//     } else {
-//       // Location obtained successfully
-//       // You can now pass _currentPosition back to the calling screen.
-//       Navigator.pop(context, _currentPosition);
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Geolocator Screen'),
-//       ),
-//       body: Center(
-//         child: _currentPosition != null
-//             ? Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: <Widget>[
-//                   Text('Latitude: ${_currentPosition.latitude}'),
-//                   Text('Longitude: ${_currentPosition.longitude}'),
-//                 ],
-//               )
-//             : CircularProgressIndicator(),
-//       ),
-//     );
-//   }
-// }
 
