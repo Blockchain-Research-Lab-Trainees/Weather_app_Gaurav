@@ -23,7 +23,7 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
   TextEditingController get controller => _controller;   // to access controoller
   // Map<String, dynamic>? get weatherData => _weatherData;
   Map<String, dynamic>? get weatherDD => _weatherDD;
-  String cityName = 'Dasna, IN';
+  String cityName = 'Ghaziabad, IN';
   // String get city => cityName;
 
   Future<void> fetchWeather(String cityName) async {

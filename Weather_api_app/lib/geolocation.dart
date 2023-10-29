@@ -70,7 +70,6 @@ class _WeatherAppState extends State<WeatherApp> {
           // Provide the city name to the WeatherProvider
           _provider.cityName = cityName;
 
-          // Print the city name
           print(cityName);
 
           _provider.fetchWeather(cityName);
@@ -121,14 +120,3 @@ class _WeatherAppState extends State<WeatherApp> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
