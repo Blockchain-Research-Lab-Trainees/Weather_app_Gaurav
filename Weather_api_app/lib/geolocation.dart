@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geocoding/geocoding.dart';
 
-const String openWeatherApiKey = '8049eac8c49885f052b0a530d4315c33'; //  API key
+const String openWeatherApiKey = 'c615d2b917d78bdd79fadb464a5c8680'; //  API key
 
 class WeatherApp extends StatefulWidget {
   @override

@@ -51,6 +51,8 @@ dependencies:
   shake: ^1.0.1
   shake_event: ^0.0.9
   flutter_launcher_icons: ^0.13.1
+  google_fonts: ^6.1.0
+  html: ^0.15.4
 
   
 

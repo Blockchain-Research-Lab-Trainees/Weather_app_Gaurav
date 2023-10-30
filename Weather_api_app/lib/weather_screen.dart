@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gaurav_app/additional_info_item.dart';
@@ -6,6 +7,7 @@ import 'package:gaurav_app/geolocation.dart';
 import 'package:gaurav_app/hourly_forecast_items.dart';
 import 'package:gaurav_app/weather.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:gaurav_app/secrets.dart';
 import 'package:intl/intl.dart';
@@ -15,12 +17,12 @@ import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shake/shake.dart';
 
-
-class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and notify changes to weather data
+class WeatherProvider extends ChangeNotifier {
+  // it is use to maanage & and notify changes to weather data
   // Map<String, dynamic>? _weatherData;   // this  is a map that store data  receive from api
-  Map<String, dynamic>? _weatherDD;    // store location data
+  Map<String, dynamic>? _weatherDD; // store location data
   TextEditingController _controller = TextEditingController();
-  TextEditingController get controller => _controller;   // to access controoller
+  TextEditingController get controller => _controller; // to access controoller
   // Map<String, dynamic>? get weatherData => _weatherData;
   Map<String, dynamic>? get weatherDD => _weatherDD;
   String cityName = 'Ghaziabad, IN';
@@ -35,7 +37,8 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
 
       final data = jsonDecode(res.body);
 
-      if (data['cod'] != '200') {   // if response status code is 200 it indicate success
+      if (data['cod'] != '200') {
+        // if response status code is 200 it indicate success
         throw data['message'];
       }
 
@@ -44,8 +47,6 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
     } catch (e) {
       throw e.toString();
     }
-
-    
 
 // Create a ShakeDetector instance
     // final ShakeDetector detector = ShakeDetector.waitForStart(
@@ -85,7 +86,7 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
   // Future<void> _getCurrentLocation() async {
   //   try {
   //     _currentPosition = await Geolocator.getCurrentPosition();
-      
+
   //     print(_currentPosition);
   //     _fetchWeatherData(_currentPosition.latitude, _currentPosition.longitude);
   //   } catch (e) {
@@ -116,7 +117,6 @@ class WeatherProvider extends ChangeNotifier {  // it is use to maanage & and no
 //       _error = 'Error fetching weather data: $e';
 //       notifyListeners();
 
-
 //     }
 //   }
 }
@@ -129,11 +129,9 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  double scrollPosition = 0.0;
 
-    double scrollPosition = 0.0;
-    
-
-@override
+  @override
   void initState() {
     super.initState();
     //  WeatherProvider()._checkLocationPermission();
@@ -152,54 +150,57 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   @override
-  void dispose() {   //it remove created object permanently from widgrt tree 
+  void dispose() {
+    //it remove created object permanently from widgrt tree
     super.dispose();
     accelerometerEvents.drain();
   }
 
-  
   // @override
-
 
   String currentLocation = 'Loading...';
 
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
-    final H =MediaQuery.sizeOf(context).height;
+    final H = MediaQuery.sizeOf(context).height;
     final W = MediaQuery.sizeOf(context).width;
 
-
-
-    
-
     return WillPopScope(
-        onWillPop: () async {
-          return await showExitConfirmationDialog(context);
-    
-        },
-    
-    child :Consumer<WeatherProvider>(      // fetch data from proviser and changes or rebuild on change value in provider
-      builder: (context, value, child) => 
-        
-          
-          // Image.asset(
-          //   'assets/images/back.jpg',
-          //   fit: BoxFit.cover,
-          //   width: double.infinity,
-          //   height: double.infinity,
-          // ),
-          
-          
-          
-          
-          Scaffold(
+      onWillPop: () async {
+        return await showExitConfirmationDialog(context);
+      },
+      child: Consumer<WeatherProvider>(
+        // fetch data from proviser and changes or rebuild on change value in provider
+        builder: (context, value, child) =>
+
+            // Image.asset(
+            //   'assets/images/back.jpg',
+            //   fit: BoxFit.cover,
+            //   width: double.infinity,
+            //   height: double.infinity,
+            // ),
+
+            Scaffold(
           appBar: AppBar(
-            title: const Text(
-              "Weather App",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+            title: RichText(
+              text: TextSpan(
+                  text: "W",
+                  style: GoogleFonts.ubuntu(
+                    textStyle: TextStyle(
+                      color: const Color.fromARGB(255, 245, 10, 10),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'eather App',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Colors.black))
+                  ]),
             ),
             centerTitle: true,
             actions: [
@@ -210,8 +211,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 },
                 icon: const Icon(Icons.refresh),
               ),
-      
             ],
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[
+                    Color.fromARGB(255, 184, 102, 236),
+                    Color.fromARGB(255, 140, 233, 244)
+                  ])),
+            ),
           ),
           body: FutureBuilder(
             future: weatherProvider.fetchWeather(value.cityName),
@@ -219,9 +229,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
               if (snapshot.hasError) {
                 return Center(child: Text(snapshot.error.toString()));
               }
-      
+
               final data = weatherProvider.weatherDD;
-      
+
               if (data == null) {
                 return const Center(
                   child: CircularProgressIndicator(
@@ -230,19 +240,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 );
               }
               currentLocation = value.cityName;
-      
+
               //  final data = snapshot.data;
               final currentTemp =
-                 ( value._weatherDD?['list']?[0]?['main']?['temp']-273.15)?.toStringAsFixed(2) ??
+                  (value._weatherDD?['list']?[0]?['main']?['temp'] - 273.15)
+                          ?.toStringAsFixed(2) ??
                       'N/A';
-      
+
               final currentWeatherData = data['list'][0];
               // final currentTemp = value._weatherData!['list'][0]['main']['temp'].toString();
               final currentSky = currentWeatherData['weather'][0]['main'];
               final currentPressure = currentWeatherData['main']['pressure'];
               final currentWindSpeed = currentWeatherData['wind']['speed'];
               final currentHumidity = currentWeatherData['main']['humidity'];
-      
+
               return Consumer<WeatherProvider>(
                   builder: (context, value, child) => SingleChildScrollView(
                         child: Padding(
@@ -250,14 +261,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                
                                 TextFormField(
                                   style: TextStyle(color: Colors.black),
                                   // validator: _validateEmail,
                                   // autovalidateMode:
                                   //     AutovalidateMode.onUserInteraction,
                                   controller: value.controller,
-      
+
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -292,31 +302,37 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     filled: true,
                                   ),
                                 ),
-      
+
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Text(
                                   'Search Location : $currentLocation',
-                                  
-                                style: TextStyle(
-                                  fontSize: 20
+                                  style: TextStyle(fontSize: 20),
                                 ),
-                                ),
-      
+
                                 SizedBox(
                                   height: 10,
                                 ),
-      
+
                                 //  WeatherApp(),
-      
+
                                 SizedBox(
                                   height: 10,
                                 ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: Card(
-                                    
+                                Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      new BoxShadow(
+                                          color: const Color.fromARGB(
+                                              255, 56, 159, 243),
+                                          blurRadius: 20.0,
+                                          offset: Offset(10, 7)),
+                                    ],
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Card(
                                       elevation: 12,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -333,7 +349,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  '$currentTemp ℃' ,
+                                                  '$currentTemp ℃',
                                                   style: TextStyle(
                                                     fontSize: 32,
                                                     fontWeight: FontWeight.bold,
@@ -360,10 +376,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           ),
                                         ),
                                       ),
-                                      ),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 15,
                                 ),
                                 Text(
                                   'Weather Forecast',
@@ -383,7 +400,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                             data['list'][index + 1];
                                         final time = DateTime.parse(
                                             hourlyForecast['dt_txt']);
-      
+
                                         return HourlyForecast(
                                           temperature: hourlyForecast['main']
                                                   ['temp']
@@ -418,21 +435,23 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     AdditionalInfo(
-                                      image: Image.asset('assets/images/humidity.png'),
+                                      image: Image.asset(
+                                          'assets/images/humidity.png'),
                                       label: 'Humidity',
                                       value: currentHumidity.toString(),
                                     ),
                                     AdditionalInfo(
-                                       image: Image.asset('assets/images/windspeed.png'),
+                                      image: Image.asset(
+                                          'assets/images/windspeed.png'),
                                       label: 'wind Speed',
                                       value: currentWindSpeed.toString(),
                                     ),
                                     AdditionalInfo(
-                                       image: Image.asset('assets/images/clouds.png'),
+                                      image: Image.asset(
+                                          'assets/images/clouds.png'),
                                       label: 'Pressure',
                                       value: currentPressure.toString(),
                                     ),
-                                  
                                   ],
                                 ),
                               ]),
@@ -441,17 +460,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
             },
           ),
         ),
-        
       ),
     );
-    
   }
 }
-
-
-
-
-
 
 Future<bool> showExitConfirmationDialog(BuildContext context) {
   return showDialog<bool>(
@@ -478,19 +490,3 @@ Future<bool> showExitConfirmationDialog(BuildContext context) {
     },
   ).then((value) => value ?? false);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
