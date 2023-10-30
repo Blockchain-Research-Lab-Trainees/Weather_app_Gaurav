@@ -418,17 +418,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     AdditionalInfo(
-                                      icon: Icons.water_drop,
+                                      image: Image.asset('assets/images/humidity.png'),
                                       label: 'Humidity',
                                       value: currentHumidity.toString(),
                                     ),
                                     AdditionalInfo(
-                                       icon: Icons.air,
+                                       image: Image.asset('assets/images/windspeed.png'),
                                       label: 'wind Speed',
                                       value: currentWindSpeed.toString(),
                                     ),
                                     AdditionalInfo(
-                                       icon: Icons.beach_access,
+                                       image: Image.asset('assets/images/clouds.png'),
                                       label: 'Pressure',
                                       value: currentPressure.toString(),
                                     ),

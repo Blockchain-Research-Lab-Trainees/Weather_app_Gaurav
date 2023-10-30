@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AdditionalInfo extends StatelessWidget {
-  final IconData icon;
+  final Image image;
   final String label;
   final String value;
   const AdditionalInfo(
       {super.key,
-      required this.icon,
+      required this.image,
       required this.label,
       required this.value});
 
@@ -15,19 +15,19 @@ class AdditionalInfo extends StatelessWidget {
     return Column(
       children: [
         
-//         Container(
-//           height: 60, width: 60, padding: const EdgeInsets.all(16),
-// decoration: BoxDecoration(
+        Container(
+          height: 60, width: 60, padding: const EdgeInsets.all(16),
+decoration: BoxDecoration(
 
 
-// borderRadius: BorderRadius.circular (15)),
-// child: image,
-//         ),
-
-      Icon(
-          icon,
-          size: 40,
+borderRadius: BorderRadius.circular (15)),
+child: image,
         ),
+
+      // Icon(
+      //     ,
+      //     size: 40,
+      //   ),
 
 
         
