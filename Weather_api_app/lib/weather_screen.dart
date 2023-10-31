@@ -181,285 +181,319 @@ class _WeatherScreenState extends State<WeatherScreen> {
             //   height: double.infinity,
             // ),
 
-            Scaffold(
-          appBar: AppBar(
-            title: RichText(
-              text: TextSpan(
-                  text: "W",
-                  style: GoogleFonts.ubuntu(
-                    textStyle: TextStyle(
-                      color: const Color.fromARGB(255, 245, 10, 10),
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'eather App',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                            color: Colors.black))
-                  ]),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                padding: EdgeInsets.only(right: 20),
-                onPressed: () {
-                  weatherProvider.fetchWeather('Dasna, IN');
-                },
-                icon: const Icon(Icons.refresh),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                   stops: [0.5, 0.7],
+                  colors: <Color>[
+                    Colors.white,
+                    Color.fromARGB(255, 193, 223, 234),
+                    
+
+                  ]
+                  )
+
               ),
-            ],
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                    Color.fromARGB(255, 184, 102, 236),
-                    Color.fromARGB(255, 140, 233, 244)
-                  ])),
-            ),
-          ),
-          body: FutureBuilder(
-            future: weatherProvider.fetchWeather(value.cityName),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              }
-
-              final data = weatherProvider.weatherDD;
-
-              if (data == null) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
-                );
-              }
-              currentLocation = value.cityName;
-
-              //  final data = snapshot.data;
-              final currentTemp =
-                  (value._weatherDD?['list']?[0]?['main']?['temp'] - 273.15)
-                          ?.toStringAsFixed(2) ??
-                      'N/A';
-
-              final currentWeatherData = data['list'][0];
-              // final currentTemp = value._weatherData!['list'][0]['main']['temp'].toString();
-              final currentSky = currentWeatherData['weather'][0]['main'];
-              final currentPressure = currentWeatherData['main']['pressure'];
-              final currentWindSpeed = currentWeatherData['wind']['speed'];
-              final currentHumidity = currentWeatherData['main']['humidity'];
-
-              return Consumer<WeatherProvider>(
-                  builder: (context, value, child) => SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                TextFormField(
-                                  style: TextStyle(color: Colors.black),
-                                  // validator: _validateEmail,
-                                  // autovalidateMode:
-                                  //     AutovalidateMode.onUserInteraction,
-                                  controller: value.controller,
-
-                                  decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.deepPurpleAccent),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.deepPurpleAccent),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    labelText: 'City',
-                                    contentPadding: EdgeInsets.all(8.0),
-                                    labelStyle: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                    suffixIconConstraints: BoxConstraints(
-                                      minWidth: 5,
-                                    ),
-                                    suffix: TextButton(
-                                      onPressed: () {
-                                        value.cityName =
-                                            value.controller.text.toString();
-                                        value.fetchWeather(value.cityName);
-                                      },
-                                      child: Text(
-                                        'Search',
-                                        style: TextStyle(color: Colors.black),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                      appBar: AppBar(
+              title: RichText(
+                text: TextSpan(
+                    text: "W",
+                    style: GoogleFonts.ubuntu(
+                      textStyle: TextStyle(
+                        color: const Color.fromARGB(255, 245, 10, 10),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'eather App',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.black))
+                    ]),
+              ),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  padding: EdgeInsets.only(right: 20),
+                  onPressed: () {
+                    weatherProvider.fetchWeather('Dasna, IN');
+                  },
+                  icon: const Icon(Icons.refresh),
+                ),
+              ],
+              flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                      Color.fromARGB(255, 184, 102, 236),
+                      Color.fromARGB(255, 140, 233, 244)
+                    ])),
+              ),
+                      ),
+                      body: FutureBuilder(
+              future: weatherProvider.fetchWeather(value.cityName),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+            
+                final data = weatherProvider.weatherDD;
+            
+                if (data == null) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.blue,
+                    ),
+                  );
+                }
+                currentLocation = value.cityName;
+            
+                //  final data = snapshot.data;
+                final currentTemp =
+                    (value._weatherDD?['list']?[0]?['main']?['temp'] - 273.15)
+                            ?.toStringAsFixed(2) ??
+                        'N/A';
+            
+                final currentWeatherData = data['list'][0];
+                // final currentTemp = value._weatherData!['list'][0]['main']['temp'].toString();
+                final currentSky = currentWeatherData['weather'][0]['main'];
+                final currentPressure = currentWeatherData['main']['pressure'];
+                final currentWindSpeed = currentWeatherData['wind']['speed'];
+                final currentHumidity = currentWeatherData['main']['humidity'];
+            
+                return Consumer<WeatherProvider>(
+                    builder: (context, value, child) => SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  TextFormField(
+                                    style: TextStyle(color: Colors.black),
+                                    // validator: _validateEmail,
+                                    // autovalidateMode:
+                                    //     AutovalidateMode.onUserInteraction,
+                                    controller: value.controller,
+            
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.deepPurpleAccent),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.deepPurpleAccent),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      labelText: 'City',
+                                      contentPadding: EdgeInsets.all(8.0),
+                                      labelStyle: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                      suffixIconConstraints: BoxConstraints(
+                                        minWidth: 5,
+                                      ),
+                                      suffix: TextButton(
+                                        onPressed: () {
+                                          value.cityName =
+                                              value.controller.text.toString();
+                                          value.fetchWeather(value.cityName);
+                                        },
+                                        child: Text(
+                                          'Search',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                      fillColor: Colors.grey[200],
+                                      filled: true,
                                     ),
-                                    fillColor: Colors.grey[200],
-                                    filled: true,
                                   ),
-                                ),
-
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'Search Location : $currentLocation',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-
-                                SizedBox(
-                                  height: 10,
-                                ),
-
-                                //  WeatherApp(),
-
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      new BoxShadow(
-                                          color: const Color.fromARGB(
-                                              255, 56, 159, 243),
-                                          blurRadius: 20.0,
-                                          offset: Offset(10, 7)),
-                                    ],
+            
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: Card(
-                                      elevation: 12,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16.0)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(16),
-                                        child: BackdropFilter(
-                                          filter: ImageFilter.blur(
-                                            sigmaX: 10,
-                                            sigmaY: 10,
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(16.0),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  '$currentTemp ℃',
-                                                  style: TextStyle(
-                                                    fontSize: 32,
-                                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    'Search Location : $currentLocation',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+            
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+            
+                                  //  WeatherApp(),
+            
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        new BoxShadow(
+                                            color: const Color.fromARGB(
+                                                255, 56, 159, 243),
+                                            blurRadius: 20.0,
+                                            offset: Offset(10, 7)),
+                                      ],
+                                    ),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Card(
+                                        elevation: 12,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16.0)),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(16),
+                                          child: BackdropFilter(
+                                            filter: ImageFilter.blur(
+                                              sigmaX: 10,
+                                              sigmaY: 10,
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(16.0),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    '$currentTemp ℃',
+                                                    style: TextStyle(
+                                                      fontSize: 32,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
-                                                Icon(
-                                                  currentSky == 'Clouds' ||
-                                                          currentSky == 'Rain'
-                                                      ? Icons.cloud
-                                                      : Icons.sunny,
-                                                  size: 68,
-                                                ),
-                                                Text(
-                                                  currentSky,
-                                                  style: TextStyle(
-                                                    fontSize: 20,
+                                                  SizedBox(
+                                                    height: 15,
                                                   ),
-                                                )
-                                              ],
+                                                  if (currentSky == 'Clouds')
+                                                    Image.asset(
+                                                      'assets/images/02d.png',
+                                                      width: 68,
+                                                      height: 68,
+                                                    )
+                                                  else if (currentSky == 'Rain')
+                                                    Image.asset(
+                                                      'assets/images/09d.png',
+                                                      width: 68,
+                                                      height: 68,
+                                                    )
+                                                  else if (currentSky == 'Snow')
+                                                    Image.asset(
+                                                      'assets/images/13d.png',
+                                                      width: 68,
+                                                      height: 68,
+                                                    )
+                                                  else
+                                                    Image.asset(
+                                                      'assets/images/01d.png',
+                                                      width: 68,
+                                                      height: 68,
+                                                    ),
+                                                  Text(
+                                                    currentSky,
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  'Weather Forecast',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
+                                  SizedBox(
+                                    height: 15,
                                   ),
-                                ),
-                                SizedBox(height: 8),
-                                SizedBox(
-                                  height: 125,
-                                  child: ListView.builder(
-                                      itemCount: 6,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final hourlyForecast =
-                                            data['list'][index + 1];
-                                        final time = DateTime.parse(
-                                            hourlyForecast['dt_txt']);
-
-                                        return HourlyForecast(
-                                          temperature: hourlyForecast['main']
-                                                  ['temp']
-                                              .toString(),
-                                          time: DateFormat('j').format(time),
-                                          icons: data['list'][index + 1]
-                                                              ['weather'][0]
-                                                          ['main'] ==
-                                                      'Clouds' ||
-                                                  data['list'][index + 1]
-                                                              ['weather'][0]
-                                                          ['main'] ==
-                                                      'Rain'
-                                              ? Icons.cloud
-                                              : Icons.sunny,
-                                        );
-                                      }),
-                                ),
-                                SizedBox(height: 20),
-                                const Text(
-                                  'Aditional Information',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    'Weather Forecast',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    AdditionalInfo(
-                                      image: Image.asset(
-                                          'assets/images/humidity.png'),
-                                      label: 'Humidity',
-                                      value: currentHumidity.toString(),
+                                  SizedBox(height: 8),
+                                  SizedBox(
+                                    height: 125,
+                                    child: ListView.builder(
+                                        itemCount: 6,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          final hourlyForecast =
+                                              data['list'][index + 1];
+                                          final time = DateTime.parse(
+                                              hourlyForecast['dt_txt']);
+            
+                                          return HourlyForecast(
+                                            temperature: hourlyForecast['main']
+                                                    ['temp']
+                                                .toString(),
+                                            time: DateFormat('j').format(time),
+                                            icons: data['list'][index + 1]
+                                                                ['weather'][0]
+                                                            ['main'] ==
+                                                        'Clouds' ||
+                                                    data['list'][index + 1]
+                                                                ['weather'][0]
+                                                            ['main'] ==
+                                                        'Rain'
+                                                ? Icons.cloud
+                                                : Icons.sunny,
+                                          );
+                                        }),
+                                  ),
+                                  SizedBox(height: 20),
+                                  const Text(
+                                    'Aditional Information',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    AdditionalInfo(
-                                      image: Image.asset(
-                                          'assets/images/windspeed.png'),
-                                      label: 'wind Speed',
-                                      value: currentWindSpeed.toString(),
-                                    ),
-                                    AdditionalInfo(
-                                      image: Image.asset(
-                                          'assets/images/clouds.png'),
-                                      label: 'Pressure',
-                                      value: currentPressure.toString(),
-                                    ),
-                                  ],
-                                ),
-                              ]),
-                        ),
-                      ));
-            },
-          ),
-        ),
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      AdditionalInfo(
+                                        image: Image.asset(
+                                            'assets/images/humidity.png'),
+                                        label: 'Humidity',
+                                        value: currentHumidity.toString(),
+                                      ),
+                                      AdditionalInfo(
+                                        image: Image.asset(
+                                            'assets/images/windspeed.png'),
+                                        label: 'wind Speed',
+                                        value: currentWindSpeed.toString(),
+                                      ),
+                                      AdditionalInfo(
+                                        image: Image.asset(
+                                            'assets/images/clouds.png'),
+                                        label: 'Pressure',
+                                        value: currentPressure.toString(),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                          ),
+                        ));
+              },
+                      ),
+                    ),
+            ),
       ),
     );
   }
