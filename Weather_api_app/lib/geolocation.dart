@@ -5,7 +5,6 @@ import 'dart:convert';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:geocoding/geocoding.dart';
 
 const String openWeatherApiKey = 'c615d2b917d78bdd79fadb464a5c8680'; //  API key
 

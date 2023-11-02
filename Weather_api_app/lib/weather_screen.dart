@@ -186,7 +186,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                   stops: [0.5, 0.7],
+                   stops: [0.4, 0.7],
                   colors: <Color>[
                     Colors.white,
                     Color.fromARGB(255, 193, 223, 234),
@@ -216,7 +216,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 24,
                               color: Colors.black))
-                    ]),
+                    ]
+                    ),
               ),
               centerTitle: true,
               actions: [
